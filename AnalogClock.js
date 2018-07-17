@@ -6,7 +6,7 @@ export default class AnalogClock extends Component {
   constructor(props) {
       super(props);
 
-      let d = new Date();
+      let d = this.props.initialDate;
 
       this.state = {
         sec: d.getSeconds() * 6,
@@ -18,18 +18,26 @@ export default class AnalogClock extends Component {
   }
 
   componentDidMount() {
-    this.timer = setInterval(() => {
-      let d = new Date();
-      this.setState({sec: d.getSeconds() * 6});
-      this.setState({min: d.getMinutes() * 6 +
-        (d.getSeconds() * 6) / 60});
-      this.setState({hour: ((d.getHours() % 12)/ 12) * 360 + 90 +
-        (d.getMinutes() * 6 + (d.getSeconds() * 6) / 60) / 12});
-    }, 1000);
+    if (this.props.showRealTime) {
+        this.timer = setInterval(() => {
+            let d = new Date();
+            this.setState({sec: d.getSeconds() * 6});
+            this.setState({
+                min: d.getMinutes() * 6 +
+                (d.getSeconds() * 6) / 60
+            });
+            this.setState({
+                hour: ((d.getHours() % 12) / 12) * 360 + 90 +
+                (d.getMinutes() * 6 + (d.getSeconds() * 6) / 60) / 12
+            });
+        }, 1000);
+    }
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer);
+      if (this.props.showRealTime) {
+          clearInterval(this.timer);
+      }
   }
 
   clockFrame() {
@@ -182,4 +190,7 @@ AnalogClock.defaultProps = {
   secondHandLength: 120,
   secondHandWidth: 2,
   secondHandOffset: 0,
+
+  showRealTime: true,
+  initialDate: new Date()
 };
