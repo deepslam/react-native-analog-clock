@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Image, View } from 'react-native';
 
-export default class AnalogClock extends Component {
+export default class AnalogClock extends PureComponent {
 
   constructor(props) {
       super(props);
 
-      let d = this.props.initialDate;
+      this.setDate = this.setDate.bind(this);
+
+      let d = new Date();
 
       this.state = {
         sec: d.getSeconds() * 6,
@@ -21,16 +23,10 @@ export default class AnalogClock extends Component {
     if (this.props.showRealTime) {
         this.timer = setInterval(() => {
             let d = new Date();
-            this.setState({sec: d.getSeconds() * 6});
-            this.setState({
-                min: d.getMinutes() * 6 +
-                (d.getSeconds() * 6) / 60
-            });
-            this.setState({
-                hour: ((d.getHours() % 12) / 12) * 360 + 90 +
-                (d.getMinutes() * 6 + (d.getSeconds() * 6) / 60) / 12
-            });
+            this.setDate(d);
         }, 1000);
+    } else {
+        this.setDate(this.props.initialDate);
     }
   }
 
@@ -38,6 +34,18 @@ export default class AnalogClock extends Component {
       if (this.props.showRealTime) {
           clearInterval(this.timer);
       }
+  }
+
+  setDate(d) {
+      this.setState({sec: d.getSeconds() * 6});
+      this.setState({
+          min: d.getMinutes() * 6 +
+          (d.getSeconds() * 6) / 60
+      });
+      this.setState({
+          hour: ((d.getHours() % 12) / 12) * 360 + 90 +
+          (d.getMinutes() * 6 + (d.getSeconds() * 6) / 60) / 12
+      });
   }
 
   clockFrame() {
