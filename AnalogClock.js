@@ -36,6 +36,12 @@ export default class AnalogClock extends PureComponent {
       }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+      if (prevProps.initialDate != this.props.initialDate) {
+          this.setDate(this.props.initialDate);
+      }
+  }
+
   setDate(d) {
       this.setState({sec: d.getSeconds() * 6});
       this.setState({
@@ -139,10 +145,6 @@ export default class AnalogClock extends PureComponent {
 
   render() {
     let background = null;
-
-    if (!this.props.showRealTime) {
-        this.setDate(this.props.initialDate);
-    }
 
     if (this.props.withBackground) {
         background = (
