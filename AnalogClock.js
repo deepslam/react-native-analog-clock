@@ -139,6 +139,11 @@ export default class AnalogClock extends PureComponent {
 
   render() {
     let background = null;
+
+    if (!this.props.showRealTime) {
+        this.setDate(this.props.initialDate);
+    }
+
     if (this.props.withBackground) {
         background = (
             <Image
