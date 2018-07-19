@@ -138,17 +138,20 @@ export default class AnalogClock extends PureComponent {
   }
 
   render() {
+    let background = null;
+    if (this.props.withBackground) {
+        background = (
+            <Image
+                style={{width: this.props.clockSize - this.props.clockBorderWidth*2,
+                    height: this.props.clockSize - this.props.clockBorderWidth*2}}
+                resizeMode='stretch'
+                source={require(this.props.backgroundPath)}
+            />
+        );
+    }
     return (
       <View style={ this.clockFrame() }>
-        {/* Uncomment for background image
-        <Image
-          style={{width: this.props.clockSize - this.props.clockBorderWidth*2,
-            height: this.props.clockSize - this.props.clockBorderWidth*2}}
-          resizeMode='stretch'
-          source={require('./img/clockBack.png')}
-        />
-        */}
-
+        {background}
         <View style={ this.clockHolder() }>
 
           <View style={[ this.hourHandStyles(),
@@ -200,5 +203,7 @@ AnalogClock.defaultProps = {
   secondHandOffset: 0,
 
   showRealTime: true,
-  initialDate: new Date()
+  initialDate: new Date(),
+  withBackground: false,
+  backgroundPath: './img/clockBack.png'
 };
