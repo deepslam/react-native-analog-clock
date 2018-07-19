@@ -145,7 +145,7 @@ export default class AnalogClock extends PureComponent {
                 style={{width: this.props.clockSize - this.props.clockBorderWidth*2,
                     height: this.props.clockSize - this.props.clockBorderWidth*2}}
                 resizeMode='stretch'
-                source={require(this.props.backgroundPath)}
+                source={require('./img/clockBack.png')}
             />
         );
     }
@@ -204,6 +204,5 @@ AnalogClock.defaultProps = {
 
   showRealTime: true,
   initialDate: new Date(),
-  withBackground: false,
-  backgroundPath: './img/clockBack.png'
+  withBackground: false
 };
